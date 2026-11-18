@@ -1,0 +1,75 @@
+#[project]
+#name = "reelio"
+#version = "0.1.0"
+#description = "reelio monorepo"
+#requires-python = ">=3.12,<3.13"
+#dependencies = []
+#
+#[tool.uv.workspace]
+#members = ["app/api", "app/worker", "packages/common", "packages/pipeline"]
+#
+#[dependency-groups]
+#dev = ["ruff", "pytest"]
+
+
+[project]
+name = "reelio-backend"
+version = "0.1.0"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "fastapi[standard]",
+    "uvicorn[standard]",
+    "pydantic-settings>=2.4",
+    "sqlalchemy>=2.1.8",
+    "alembic>=1.20.1",
+    "psycopg[binary]>=3.3.8",
+    "static-ffmpeg>=3.0",
+    "pyannote-audio>=4.0.7",
+    "imageio-ffmpeg>=0.8.1",
+    #    added from the test pipleine project
+    "av<16",
+    "cloudinary>=1.47.0",
+    "faster-whisper>=1.2.1",
+    "imageio-ffmpeg>=0.8.1",
+    "mediapipe>=1.2.2",
+    "opencv-python>=5.0.0.93",
+    "pillow>=13.0.0",
+    "python-dotenv>=1.2.4",
+    "static-ffmpeg>=3.0",
+    "yt-dlp>=2026.10.26",
+    "openai>=3.49.0",
+    "google-genai>=3.0.0",
+    "httpx>=0.28.1",
+    "redis>=8.1.0",
+]
+
+# Heavy ML packages go here later, so the API stays light:
+#   uv sync --extra worker      (worker machine: installs everything)
+#   uv sync                     (API only: lightweight)
+[project.optional-dependencies]
+worker = [
+    "av<16",
+    "faster-whisper>=1.2.1",
+    "google-genai>=3.0.0",
+    "imageio-ffmpeg>=0.8.1",
+    "mediapipe>=1.2.2",
+    "numpy>=2.5.4",
+    "pillow>=13.0.0",
+    "pyannote-audio>=4.0.7",
+    "requests>=2.34.2",
+    "rich>=15.0.0",
+    "static-ffmpeg>=3.0",
+    "tenacity>=9.1.4",
+    "yt-dlp>=2026.10.26",
+]
+
+[dependency-groups]
+dev = [
+    "pytest",
+    "httpx",
+    "ruff",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
